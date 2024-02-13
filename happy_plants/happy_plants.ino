@@ -36,7 +36,8 @@ void loop() {
   float temperature = am2320.readTemperature();
 
   // Prepare the message
-  String msg = String("The current temperature is ") + temperature + "C and the humidity is " + humidity + "%.";
+  // String msg = String("The current temperature is ") + temperature + "C and the humidity is " + humidity + "%.";
+  String msg = String("The current temperature is ") + temperature + " and the current humidity is " + humidity +".";
 
   // Send to WhatsApp
   sendWhatsAppMessage(msg);
@@ -51,7 +52,7 @@ void sendWhatsAppMessage(String message) {
   http.addHeader("Content-Type", "application/x-www-form-urlencoded");
   http.setAuthorization(account_sid, auth_token);
   
-  String msgBody = "Body=" + message + "&From=whatsapp:" + String(twilio_from) + "&To=whatsapp:" + String(twilio_to);
+  String msgBody = "Body=" + message + "&TemplateParameters=[\"99\", \"99\"]" + "&TemplateName=temp_and_humid_test" + "&From=whatsapp:" + String(twilio_from) + "&To=whatsapp:" + String(twilio_to);
   
   int httpResponseCode = http.POST(msgBody);
   if(httpResponseCode > 0) {
